@@ -1,7 +1,9 @@
 [![Join the chat at https://gitter.im/bergben/bergben](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bergben/bergben?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # ng2-img-tools
-Angular module to resize images, crop images or compress images down to a certain filesize. This is all done in the browser, using Web Workers when possible.
+Angular module to resize images, crop images or compress images down to a certain filesize. This is all done in the browser, using Web Workers when possible. 
+
+I've added some extra extensions have been added on top of the existing project by bergben (thanks!). 
 
 ## Demo
 A simple demo is available as a plnkr: http://plnkr.co/edit/HRi5rQEDCBZb59a0lcPe?p=preview
@@ -80,8 +82,8 @@ Returns an observable that for every file given, onNext receives either a File w
 Method to resize files if necessary down to a certain maximal width or maximal height in px. If you want only one limit just set the other max to a very high value: for example `resize([myfile1,myfile2],2000,10000).subscribe([...]`
 
 ### Crop image
-#### `crop(files: File[], toWidth: number, toHeight: number, startX: number = 0, startY: number = 0): Observable<any>` 
-Crops the given files down to the given width and height. startX and startY tell where the cropping should start as coordinates.
+#### `crop(files: File[], toWidth: number, toHeight: number, startX: number = 0, startY: number = 0, fillColor?: string): Observable<any>` 
+Crops the given files down to the given width and height. startX and startY tell where the cropping should start as coordinates. You can set a custom background color using `fillColor` for any remaining canvas after image cropping.
 
 ### Resize exact (e.g. useful to create thumbnails)
 #### `public resizeExactCrop(files: File[], toWidth: number, toHeight: number): Observable<any>` 

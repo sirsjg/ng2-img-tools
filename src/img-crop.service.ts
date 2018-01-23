@@ -6,7 +6,7 @@ import { Ng2ImgMaxService } from 'ng2-img-max';
 @Injectable()
 export class ImgCropService {
     constructor(@Inject(forwardRef(() => Ng2ImgMaxService)) private ng2ImgMaxService: Ng2ImgMaxService) { }
-    public cropImage(file: File, toWidth: number, toHeight: number, startX: number = 0, startY: number = 0): Observable<any> {
+    public cropImage(file: File, toWidth: number, toHeight: number, startX: number = 0, startY: number = 0, fillColor?:string): Observable<any> {
         let croppedImageSubject: Subject<any> = new Subject<any>();
         if (file.type !== "image/jpeg" && file.type !== "image/png") {
             // END OF CROPPING
@@ -23,6 +23,10 @@ export class ImgCropService {
                 window.URL.revokeObjectURL(img.src);
                 cvs.width=toWidth;
                 cvs.height=toHeight;
+                if(fillColor){
+                    ctx.fillStyle = fillColor;
+                    ctx.fillRect(0, 0, toWidth, toHeight);
+                }
                 ctx.drawImage(orientedImg, startX, startY, toWidth, toHeight, 0, 0, toWidth, toHeight);
                 let imageData = ctx.getImageData(0, 0, orientedImg.width, orientedImg.height);
                 let useAlpha = true;
@@ -30,6 +34,10 @@ export class ImgCropService {
                     //image without alpha
                     useAlpha = false;
                     ctx = cvs.getContext('2d', { 'alpha': false });
+                    if(fillColor){
+                        ctx.fillStyle = fillColor;
+                        ctx.fillRect(0, 0, toWidth, toHeight);
+                    }
                     ctx.drawImage(orientedImg, startX, startY, toWidth, toHeight, 0, 0, toWidth, toHeight);
                 }
                 cvs.toBlob((blob)=>{
