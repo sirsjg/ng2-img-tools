@@ -18,10 +18,10 @@ export class Ng2ImgToolsService {
     public resize(files: File[], maxWidth: number, maxHeight: number, logExecutionTime: boolean = false): Observable<any> {
         return this.ng2ImgMaxService.resize(files, maxWidth, maxHeight, logExecutionTime);
     }
-    public crop(files: File[], toWidth: number, toHeight: number, startX: number = 0, startY: number = 0): Observable<any> {
+    public crop(files: File[], toWidth: number, toHeight: number, startX: number = 0, startY: number = 0, fillColor?:string): Observable<any> {
         let croppedFileSubject: Subject<any> = new Subject<any>();
         files.forEach((file) => {
-            this.cropImage(file, toWidth, toHeight, startX, startY).subscribe((value) => {
+            this.cropImage(file, toWidth, toHeight, startX, startY, fillColor).subscribe((value) => {
                 croppedFileSubject.next(value);
             }, error => {
                 croppedFileSubject.error(error);
@@ -57,8 +57,8 @@ export class Ng2ImgToolsService {
     public resizeExactCropImage(file: File, toWidth: number, toHeight: number): Observable<any> {
         return this.imgResizeExactService.resizeExactCrop(file, toWidth, toHeight);
     }
-    public cropImage(file: File, toWidth: number, toHeight: number, startX: number = 0, startY: number = 0): Observable<any> {
-        return this.imgCropService.cropImage(file, toWidth, toHeight, startX, startY);
+    public cropImage(file: File, toWidth: number, toHeight: number, startX: number = 0, startY: number = 0, fillColor?:string): Observable<any> {
+        return this.imgCropService.cropImage(file, toWidth, toHeight, startX, startY, fillColor);
     }
     public compressImage(file: File, maxSizeInMB: number, ignoreAlpha: boolean = false, logExecutionTime: boolean = false): Observable<any> {
         return this.ng2ImgMaxService.compressImage(file, maxSizeInMB, ignoreAlpha, logExecutionTime);
